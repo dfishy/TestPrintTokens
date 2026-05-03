@@ -1,5 +1,7 @@
 // @wei Jack-Printtokens.java
 
+//Java imports
+import java.beans.Transient;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,7 +9,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
-public class Printtokens {
+//JUnit imports
+import static org.junit.*;
+
+
+public class PrinttokensJUnitTest {
+
+	private Printtokens pt;
+
 	static int error = 0;
 	static int keyword = 1;
 	static int spec_symbol = 2;
@@ -17,6 +26,12 @@ public class Printtokens {
 	static int char_constant = 43;
 	static int comment = 5;
 	
+	@Before
+	public void setUp()
+	{
+		pt = new Printtokens();
+	}
+
 	/***********************************************/
 	/* NMAE:	open_character_stream          */
 	/* INPUT:       a filename                     */
@@ -40,6 +55,33 @@ public class Printtokens {
 		}
 		
 		return null; 
+	}
+
+	@Test
+	void test_open_character_stream_for_null()
+	{
+		BufferedReader reader = pt.open_character_stream(null);
+
+		//Assertion will fail on the orginal code because it returns null
+		//If this assertion fails, the fault has been detected
+		assertNotNull(reader, "Reader should not be null");
+	}
+
+	@Test
+	void test_open_character_stream_for_valid_file() throws IOException
+	{
+		File tempFile = File.createTempFile("test1", ".txt");
+		BufferedReader reader = pt.open_character_stream(tempFile.getAbsolutePath());
+		//If this assertion fails, the fault has been detected
+		assertNotNull(reader, "Reader should not be null when opening a valid file");
+		tempFile.delete();
+	}
+
+	@Test
+	void test_open_character_stream_file_not_found()
+	{
+		BufferedReader Reader = pt.open_character_stream("this_file_does_not_exist.txt");
+		assertNull(Reader, "Reader should be null when file is missing");
 	}
 	
 	/**********************************************/
