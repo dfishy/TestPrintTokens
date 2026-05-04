@@ -71,6 +71,8 @@ public class PrinttokensJUnitTest {
 	void test_open_character_stream_for_valid_file() throws IOException
 	{
 		File tempFile = File.createTempFile("test1", ".txt");
+		//getAbsolutePath() will allow a tempFile called test1.txt to be created on your 
+		//hard drive so that the JUnit test can be passed
 		BufferedReader reader = pt.open_character_stream(tempFile.getAbsolutePath());
 		//If this assertion fails, the fault has been detected
 		assertNotNull(reader, "Reader should not be null when opening a valid file");
@@ -89,7 +91,7 @@ public class PrinttokensJUnitTest {
 	/* INPUT:       a BufferedReader      */
 	/* OUTPUT:      a character (f2,remove"when EOF, return -1" in the comment) */
 	/**********************************************/
-	int get_char(BufferedReader br){ 
+	int get_char(BufferedReader br){
             int ch = 0;
 	    try {
 	    	br.mark(3); 
@@ -98,6 +100,21 @@ public class PrinttokensJUnitTest {
 			e.printStackTrace();
 		}
 	    return ch;
+	}
+
+	@Test
+	void test_get_char_exception_returns_zero() throws IOException
+	{
+		StringReader sr = new StringReader("abcde");
+		BufferedReader br = new BufferedReader(sr);
+
+		//Close immdeitately to forece an IOException
+		br.close();
+
+		int result = pt.get_char(br);
+
+		//If this assertion fails, the fault has been detected
+		assertEquals(-1, result, "Method should return -1 on IOException, but it returned 0");
 	}
 	
 	/***************************************************/
