@@ -60,11 +60,11 @@ public class PrinttokensJUnitTest {
 	@Test
 	void test_open_character_stream_for_null()
 	{
-		BufferedReader reader = pt.open_character_stream(null);
+		BufferedReader br = pt.open_character_stream(null);
 
 		//Assertion will fail on the orginal code because it returns null
 		//If this assertion fails, the fault has been detected
-		assertNotNull(reader, "Reader should not be null");
+		assertNotNull(br, "Buffered Reader should not be null");
 	}
 
 	@Test
@@ -73,17 +73,17 @@ public class PrinttokensJUnitTest {
 		File tempFile = File.createTempFile("test1", ".txt");
 		//getAbsolutePath() will allow a tempFile called test1.txt to be created on your 
 		//hard drive so that the JUnit test can be passed
-		BufferedReader reader = pt.open_character_stream(tempFile.getAbsolutePath());
+		BufferedReader br = pt.open_character_stream(tempFile.getAbsolutePath());
 		//If this assertion fails, the fault has been detected
-		assertNotNull(reader, "Reader should not be null when opening a valid file");
-		tempFile.delete();
+		assertNotNull(br, "Buffered Reader should not be null when opening a valid file");
+		tempFile.delete(); //tempFile deleted
 	}
 
 	@Test
 	void test_open_character_stream_file_not_found()
 	{
-		BufferedReader Reader = pt.open_character_stream("this_file_does_not_exist.txt");
-		assertNull(Reader, "Reader should be null when file is missing");
+		BufferedReader br = pt.open_character_stream("this_file_does_not_exist.txt");
+		assertNull(br, "Buffered Reader should be null when file is missing");
 	}
 	
 	/**********************************************/
@@ -102,13 +102,26 @@ public class PrinttokensJUnitTest {
 	    return ch;
 	}
 
+	//No fault should be detected. The original code should produce the correct output
+	// based on the given input.
+	@Test
+	void test_get_char_normal_read() throws IOException
+	{
+		StringReader sr = new StringReader("a");
+		BufferedReader br = new BufferedReader(sr);
+
+		int result = pt.get_char(br);
+
+		assertEquals(97, result, "Should return ASCII 97 for character 'a'");
+	}
+
 	@Test
 	void test_get_char_exception_returns_zero() throws IOException
 	{
 		StringReader sr = new StringReader("abcde");
 		BufferedReader br = new BufferedReader(sr);
 
-		//Close immdeitately to forece an IOException
+		//Close immediately to forece an IOException
 		br.close();
 
 		int result = pt.get_char(br);
@@ -131,7 +144,34 @@ public class PrinttokensJUnitTest {
 	}
 		 return 0;
 	}
-	
+
+	@Test
+	void test_unget_char_returns_correct_character() throws IOException
+	{
+		StringReader sr = new StringReader("testing");
+		BufferedReader br = new BufferedReader(sr);
+		br.mark(10);
+		br.read();
+
+		char inputChar = 'a';
+		char result = pt.unget_char(inputChar, br);
+
+		//If this assertion fails, the fault has been detected
+		assertEquals(inputChar, result, "unget_char should return the character that was passed in ('a')");
+	}
+
+	@Transientvoid test_unget_char_exception()
+	{
+		StringReader sr = new StringReader("testing");
+		BufferedReader br = new BufferedReader(sr);
+
+		char inputChar = 'a';
+		char result = pt.unget_char(inputChar, br);
+
+		//If this assertion fails, the fault has been detected
+		assertEquals(inputChar, result, "Should return \'a\' even if reset fails");
+	}
+
 	/********************************************************/
 	/* NAME:	open_token_stream                       */
 	/* INPUT:       a filename                              */

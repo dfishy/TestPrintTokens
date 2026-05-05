@@ -72,6 +72,9 @@ public class Printtokens {
 	}
 		 return 0;
 	}
+
+	@Test
+	
 	
 	/********************************************************/
 	/* NAME:	open_token_stream                       */
