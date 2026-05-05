@@ -1,5 +1,3 @@
-//package src.test.java;
-// @wei Jack-Printtokens.java
 package printtokens;
 
 //Java imports
@@ -14,10 +12,9 @@ import java.io.StringReader;
 
 //JUnit imports
 //import static org.junit.*; Did not work for JUnit 5
+
 // Imports for JUnit 5
 import org.junit.jupiter.api.Test;
-
-import src.main.java.printtokens.Printtokens;
 
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;

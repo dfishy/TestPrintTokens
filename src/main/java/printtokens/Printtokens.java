@@ -1,5 +1,3 @@
-//package src.main.java;
-// @wei Jack-Printtokens.java
 package printtokens;
 
 import java.io.BufferedReader;
