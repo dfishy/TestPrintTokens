@@ -39,7 +39,7 @@ public class Printtokens {
 			}
 		}
 		
-		return null; 
+		return null; //FAULT FOUND: should be return br instead of return null
 	}
 	
 	/**********************************************/
