@@ -1,10 +1,11 @@
-<<<<<<< HEAD
 # PrintTokens
 
 A Java token parser program for SW Testing.
 
-## How to Run
+## How to Run PrintTokens
 javac Printtokens.java
 java Printtokens test.txt
-=======
->>>>>>> main
+
+## PrintTokens JUnit Tests
+
+## How to Run rintTokens JUnit Test
