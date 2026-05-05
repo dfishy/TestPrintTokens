@@ -1,6 +1,7 @@
 # PrintTokens
 Printtokens: A Java token parser program (with errors).
 PrinttokensJUnitTest: Unit test code to streamline testing.
+Requires Maven to compile
 
 ## To Compile
 mvn compile
