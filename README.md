@@ -1,11 +1,15 @@
 # PrintTokens
+Printtokens: A Java token parser program (with errors).
+PrinttokensJUnitTest: Unit test code to streamline testing.
 
-A Java token parser program for SW Testing.
+## To Compile
+mvn compile
 
-## How to Run PrintTokens
-javac Printtokens.java
-java Printtokens test.txt
+## To Run PrintTokens
+    Run Without Arguments
+mvn exec:java
+    Run With a Test File
+mvn exec:java -Dexec.args="test.txt"
 
-## PrintTokens JUnit Tests
-
-## How to Run rintTokens JUnit Test
+## To Run PrintTokens JUnit Test
+mvn test
