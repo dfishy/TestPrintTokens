@@ -1,5 +1,7 @@
 // @wei Jack-Printtokens.java
 
+//Java imports
+import java.beans.Transient;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,7 +9,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
-public class Printtokens {
+//JUnit imports
+import static org.junit.*;
+
+
+public class PrinttokensJUnitTest {
+
+	private Printtokens pt;
+
 	static int error = 0;
 	static int keyword = 1;
 	static int spec_symbol = 2;
@@ -17,6 +26,12 @@ public class Printtokens {
 	static int char_constant = 43;
 	static int comment = 5;
 	
+	@Before
+	public void setUp()
+	{
+		pt = new Printtokens();
+	}
+
 	/***********************************************/
 	/* NMAE:	open_character_stream          */
 	/* INPUT:       a filename                     */
@@ -41,13 +56,42 @@ public class Printtokens {
 		
 		return null; 
 	}
+
+	@Test
+	void test_open_character_stream_for_null()
+	{
+		BufferedReader br = pt.open_character_stream(null);
+
+		//Assertion will fail on the orginal code because it returns null
+		//If this assertion fails, the fault has been detected
+		assertNotNull(br, "Buffered Reader should not be null");
+	}
+
+	@Test
+	void test_open_character_stream_for_valid_file() throws IOException
+	{
+		File tempFile = File.createTempFile("test1", ".txt");
+		//getAbsolutePath() will allow a tempFile called test1.txt to be created on your 
+		//hard drive so that the JUnit test can be passed
+		BufferedReader br = pt.open_character_stream(tempFile.getAbsolutePath());
+		//If this assertion fails, the fault has been detected
+		assertNotNull(br, "Buffered Reader should not be null when opening a valid file");
+		tempFile.delete(); //tempFile deleted
+	}
+
+	@Test
+	void test_open_character_stream_file_not_found()
+	{
+		BufferedReader br = pt.open_character_stream("this_file_does_not_exist.txt");
+		assertNull(br, "Buffered Reader should be null when file is missing");
+	}
 	
 	/**********************************************/
 	/* NAME:	get_char                      */
 	/* INPUT:       a BufferedReader      */
 	/* OUTPUT:      a character (f2,remove"when EOF, return -1" in the comment) */
 	/**********************************************/
-	int get_char(BufferedReader br){ 
+	int get_char(BufferedReader br){
             int ch = 0;
 	    try {
 	    	br.mark(3); 
@@ -56,6 +100,34 @@ public class Printtokens {
 			e.printStackTrace();
 		}
 	    return ch;
+	}
+
+	//No fault should be detected. The original code should produce the correct output
+	// based on the given input.
+	@Test
+	void test_get_char_normal_read() throws IOException
+	{
+		StringReader sr = new StringReader("a");
+		BufferedReader br = new BufferedReader(sr);
+
+		int result = pt.get_char(br);
+
+		assertEquals(97, result, "Should return ASCII 97 for character 'a'");
+	}
+
+	@Test
+	void test_get_char_exception_returns_zero() throws IOException
+	{
+		StringReader sr = new StringReader("abcde");
+		BufferedReader br = new BufferedReader(sr);
+
+		//Close immediately to forece an IOException
+		br.close();
+
+		int result = pt.get_char(br);
+
+		//If this assertion fails, the fault has been detected
+		assertEquals(-1, result, "Method should return -1 on IOException, but it returned 0");
 	}
 	
 	/***************************************************/
@@ -72,7 +144,34 @@ public class Printtokens {
 	}
 		 return 0;
 	}
-	
+
+	@Test
+	void test_unget_char_returns_correct_character() throws IOException
+	{
+		StringReader sr = new StringReader("testing");
+		BufferedReader br = new BufferedReader(sr);
+		br.mark(10);
+		br.read();
+
+		char inputChar = 'a';
+		char result = pt.unget_char(inputChar, br);
+
+		//If this assertion fails, the fault has been detected
+		assertEquals(inputChar, result, "unget_char should return the character that was passed in ('a')");
+	}
+
+	@Transientvoid test_unget_char_exception()
+	{
+		StringReader sr = new StringReader("testing");
+		BufferedReader br = new BufferedReader(sr);
+
+		char inputChar = 'a';
+		char result = pt.unget_char(inputChar, br);
+
+		//If this assertion fails, the fault has been detected
+		assertEquals(inputChar, result, "Should return \'a\' even if reset fails");
+	}
+
 	/********************************************************/
 	/* NAME:	open_token_stream                       */
 	/* INPUT:       a filename                              */
