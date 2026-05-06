@@ -424,7 +424,7 @@ public class PrinttokensJUnitTest {
 	  else  
 	     return false;
 	}
-	
+	// tests for is_char_constant
 	@Test
 	public void TC1_hashAA() {
 		assertFalse(Printtokens.is_char_constant("#aa"));
@@ -469,7 +469,29 @@ public class PrinttokensJUnitTest {
 	  else
 	   return false;               /* other return FALSE */
 	}
-	
+	// Tests for is_num_constant
+	@Test
+	void test_TC1_non_digit_returns_false()
+	{
+		boolean result = Printtokens.is_num_constant("A");
+		assertEquals(false, result, "A non-digit string should return false");
+	}
+
+	@Test
+	void test_TC2_digits_with_null_terminator()
+	{
+		// Should return true for "77" but buggy code throws StringIndexOutOfBoundsException
+		boolean result = Printtokens.is_num_constant("77\0");
+		assertEquals(true, result, "A string of digits should return true");
+	}
+
+	@Test
+	void test_TC3_mixed_digit_and_letter()
+	{
+		// Should return false but buggy code throws StringIndexOutOfBoundsException
+		boolean result = Printtokens.is_num_constant("7A");
+		assertEquals(false, result, "A string with a non-digit character should return false");
+	}
 	/*************************************/
 	/* NAME:	is_str_constant      */
 	/* INPUT: 	a token */
