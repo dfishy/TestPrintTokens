@@ -384,27 +384,39 @@ public class PrinttokensJUnitTest {
 	      return false;
 	}
 	
-	public class IsCharConstantTest {
-		@Test
-		public void TC1_hashAA() {
-			assertFalse(Printtokens.is_char_constant("#aa"));
-		}
-		
-		@Test
-		public void TC2_1_hashA() {
-			assertTrue(Printtokens.is_char_constant("#a"));
-		}
-
-		@Test
-		public void TC2_2_aa() {
-			assertFalse(Printtokens.is_char_constant("aa"));
-		}
-
-		@Test
-		public void TC2_3_hash1() {
-			assertFalse(Printtokens.is_char_constant("#1"));
-		}
+	/*************************************/
+	/* NAME:	is_char_constant     */
+	/* INPUT: 	a token */
+	/* OUTPUT:      a BOOLEAN value      */
+	/*************************************/
+	static boolean is_char_constant(String str)
+	{
+	  if (str.length() > 2 && str.charAt(0)=='#' && Character.isLetter(str.charAt(1)))  
+	     return true;
+	  else  
+	     return false;
 	}
+	
+	@Test
+	public void TC1_hashAA() {
+		assertFalse(Printtokens.is_char_constant("#aa"));
+	}
+	
+	@Test
+	public void TC2_1_hashA() {
+		assertTrue(Printtokens.is_char_constant("#a"));
+	}
+
+	@Test
+	public void TC2_2_aa() {
+		assertFalse(Printtokens.is_char_constant("aa"));
+	}
+
+	@Test
+	public void TC2_3_hash1() {
+		assertFalse(Printtokens.is_char_constant("#1"));
+	}
+	
 	
 	/*************************************/
 	/* NAME:	is_num_constant      */
