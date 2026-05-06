@@ -1,9 +1,16 @@
-# CSE4321-TestingProject
+# PrintTokens
+Printtokens: A Java token parser program (with errors).
+PrinttokensJUnitTest: Unit test code to streamline testing.
+Requires Maven to compile
 
-Raafay Baig (1002095362)
-Danielle Fish ()
+## To Compile
+mvn compile
 
-Explain what the project contains and talk about the JUnit code and how to run it.
+## To Run PrintTokens
+    Run Without Arguments
+mvn exec:java
+    Run With a Test File
+mvn exec:java -Dexec.args="test.txt"
 
-# JUnit
- 
+## To Run PrintTokens JUnit Test
+mvn test

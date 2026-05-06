@@ -1,8 +1,9 @@
-// @wei Jack-Printtokens.java
+package printtokens;
 
 //Java imports
 import java.beans.Transient;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,7 +11,12 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 
 //JUnit imports
-import static org.junit.*;
+//import static org.junit.*; Did not work for JUnit 5
+
+// Imports for JUnit 5
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class PrinttokensJUnitTest {
@@ -26,7 +32,7 @@ public class PrinttokensJUnitTest {
 	static int char_constant = 43;
 	static int comment = 5;
 	
-	@Before
+	@BeforeEach
 	public void setUp()
 	{
 		pt = new Printtokens();

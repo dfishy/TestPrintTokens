@@ -1,4 +1,4 @@
-// @wei Jack-Printtokens.java
+package printtokens;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -72,9 +72,6 @@ public class Printtokens {
 	}
 		 return 0;
 	}
-
-	@Test
-	
 	
 	/********************************************************/
 	/* NAME:	open_token_stream                       */
@@ -466,7 +463,7 @@ public class Printtokens {
 		if (args.length == 0) {	/* if not given filename,take as '""' */
 			fname = new String();
 		} else if (args.length == 1) {
-			fname = args[1]; 
+			fname = args[0]; /// FIRST BUG FOUND, WAS 1 SHOULD BE 0
 		} else {
 			System.out.print("Error!,please give the token stream\n");
 			System.exit(0);
