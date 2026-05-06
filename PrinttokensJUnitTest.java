@@ -160,7 +160,8 @@ public class PrinttokensJUnitTest {
 		assertEquals(inputChar, result, "unget_char should return the character that was passed in ('a')");
 	}
 
-	@Transientvoid test_unget_char_exception()
+	@Test
+	void test_unget_char_exception()
 	{
 		StringReader sr = new StringReader("testing");
 		BufferedReader br = new BufferedReader(sr);
@@ -294,6 +295,34 @@ public class PrinttokensJUnitTest {
 	 if(ch ==' ' || ch=='\n'|| ch=='\r' || ch==59) return true; 
 	               
 	 return false;               /* other case,return FALSE */
+	}
+
+	@Test
+	void test_is_token_end_paths()
+	{
+		//Test EOF
+		assertTrue(Printtokens.is_token_end(0, -1), "EOF should end token");
+
+		//Test string ends with quote
+		assertTrue(Printtokens.is_token_end(1, 34), "Quote should end string token");
+
+		//Test string that continues with 'a'
+		assertFalse(Printtokens.is_token_end(1, 97), "char should not end string token");
+
+		//Test comment that ends with newline
+		assertTrue(Printtokens.is_token_end(2, 10), "Newline should end comment token");
+
+		//Test comment that continues with 'x'
+		assertFalse(Printtokens.is_token_end(2, 120), "char should not end comment token");
+
+		//Test special symbol '('
+		assertTrue(Printtokens.is_token_end(0, 40), "Special symbol should end token");
+
+		//Test whitespace ' '
+		assertTrue(Printtokens.is_token_end(0, 32), "Space should end token");
+
+		//Test a normal character like 'k'
+		assertFalse(Printtokens.is_token_end(0, 107), "Normal character should not end token");
 	}
 	
 	/****************************************************/
