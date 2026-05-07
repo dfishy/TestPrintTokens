@@ -349,6 +349,34 @@ public class PrinttokensJUnitTest {
 	 if(is_comment(tok))return(comment);
 	 return(error);                    /* else look as error token */
 	}
+
+	@Test
+	void test_token_type_paths()
+	{
+		//Test keyword
+		assertEquals(1, Printtokens.token_type("if"), "Path {1,2} failed");	
+
+		//Test sepcial symbol
+		assertEquals(2, Printtokens.token_type("("), "Path {1,3,4} failed");
+
+		//Test idetifier
+		assertEquals(3, Printtokens.token_type("alpha"), "Path {1,3,5,6} failed");
+
+		//Test numeric constant
+		assertEquals(4, Printtokens.token_type("123"), "Path {1,3,5,7,8} failed");
+		
+		//Test string constant
+		assertEquals(5, Printtokens.token_type("\"hi\""), "Path {1,3,5,7,9,10} failed");
+
+		//Test character constant
+		assertEquals(6, Printtokens.token_type("'a'"), "Path {1,3,5,7,9,11,12} failed");
+
+		//Test comment
+		assertEquals(7, Printtokens.token_type(";msg"), "Path {1,3,5,7,9,11,13,14} failed");
+
+		//Test empty string
+		assertEquals(0, Printtokens.token_type(""), "Path {1,3,5,7,9,11,13,15} should return error 0");
+	}
 	
 	/****************************************************/
 	/* NAME:	print_token                             */
@@ -387,7 +415,27 @@ public class PrinttokensJUnitTest {
 
 	/* the code for tokens judgment function */
 
-	
+	@Test
+    void test_print_token_fault_path() 
+	{
+        //Testing using a string constant
+        pt.print_token("\"hello\"");
+        
+        //If this assertion fails, the fault has been detected
+        String expected = "string,\"\"hello\"\".\n";
+        assertEquals(expected, outContent.toString(), "Should print string constant info");
+    }
+
+    @Test
+    void test_print_token_keyword_path() 
+	{
+        //Testing keyword
+        pt.print_token("if");
+        
+        String expected = "keyword,\"if\".\n";
+        assertEquals(expected, outContent.toString());
+    }  
+
 	/*************************************/
 	/* NAME:	is_comment           */
 	/* INPUT: 	a token */
