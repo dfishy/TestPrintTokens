@@ -538,7 +538,7 @@ public class PrinttokensJUnitTest {
         //If this assertion fails, the fault has been detected
         assertTrue(result, "Fault Detected: Keywords should be case-insensitive.");
 	}
-	
+
 	/*************************************/
 	/* NAME:	is_char_constant     */
 	/* INPUT: 	a token */
@@ -621,7 +621,32 @@ public class PrinttokensJUnitTest {
 	  else
 	     return true; 
 	}
+
+	@Test
+    void test_is_identifer_starts_with_digit() 
+	{
+        boolean result = Printtokens2.is_identifier("123");
+        
+        //If this assertion fails, the fault has been detected
+        assertFalse(result, "Fault Detected: '123' should NOT be an identifier.");
+    }
+
+	@Test
+    void test_is_identifier_incorrect_return()
+	{
+        boolean result = Printtokens2.is_identifier("abc");
+        
+        //If this assertion fails, the fault has been detected
+        assertTrue(result, "Fault Detected: 'abc' SHOULD be a valid identifier.");
+    }
 	
+	@Test
+    void test_is_identifier_special_character() 
+	{
+        boolean result = Printtokens2.is_identifier("a#b");
+        assertFalse(result, "An identifier should not contain special characters.");
+    }
+
 	/******************************************/
 	/* NAME:	unget_error               */
 	/* INPUT:      a BufferedReader */
@@ -715,6 +740,35 @@ public class PrinttokensJUnitTest {
 	    }
 	    return false;     /* others return FALSE */
 	}
+
+	@Test
+    void test_is_spec_symbol_valid_symbols() 
+	{
+        assertTrue(Printtokens2.is_spec_symbol('('), "Path {1, 2} failed");
+
+        assertTrue(Printtokens2.is_spec_symbol(')'), "Path {1, 3, 4} failed");
+
+        assertTrue(Printtokens2.is_spec_symbol('['), "Path {1, 3, 5, 6} failed");
+
+        assertTrue(Printtokens2.is_spec_symbol(']'), "Path {1, 3, 5, 7, 8} failed");
+
+        assertTrue(Printtokens2.is_spec_symbol('/'), "Path {1, 3, 5, 7, 9, 10} failed");
+
+        assertTrue(Printtokens2.is_spec_symbol('`'), "Path {1, 3, 5, 7, 9, 11, 12} failed");
+
+        assertTrue(Printtokens2.is_spec_symbol(','), "Path {1, 3, 5, 7, 9, 11, 13, 14} failed");
+
+        // Use ';' because it is a special symbol that should return true.
+        //If this assertion fails, the fault has been detected
+        assertTrue(Printtokens2.is_spec_symbol(';'), "Fault Detected: Semicolon should be a special symbol.");
+    }
+    
+    @Test
+    void test_is_spec_symbol_valid_symbol_not_included() 
+	{
+        // Additional check for the false path using a letter
+        assertFalse(Printtokens2.is_spec_symbol('a'), "Letters cannot not be special symbols.");
+    }
 	
 	public static void main(String[] args) throws IOException {
 		String fname = null;
