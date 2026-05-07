@@ -537,6 +537,7 @@ public class PrinttokensJUnitTest {
         
         //If this assertion fails, the fault has been detected
         assertTrue(result, "Fault Detected: Keywords should be case-insensitive.");
+	}
 	
 	/*************************************/
 	/* NAME:	is_char_constant     */
