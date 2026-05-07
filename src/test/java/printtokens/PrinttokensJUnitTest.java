@@ -415,26 +415,44 @@ public class PrinttokensJUnitTest {
 
 	/* the code for tokens judgment function */
 
-	@Test
-    void test_print_token_fault_path() 
+	public class PrintTokenTest 
 	{
-        //Testing using a string constant
-        pt.print_token("\"hello\"");
-        
-        //If this assertion fails, the fault has been detected
-        String expected = "string,\"\"hello\"\".\n";
-        assertEquals(expected, outContent.toString(), "Should print string constant info");
-    }
+		private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		private final PrintStream originalOut = System.out;
 
-    @Test
-    void test_print_token_keyword_path() 
-	{
-        //Testing keyword
-        pt.print_token("if");
-        
-        String expected = "keyword,\"if\".\n";
-        assertEquals(expected, outContent.toString());
-    }  
+		@BeforeEach
+		public void setUpStreams() 
+		{
+			System.setOut(new PrintStream(outContent));
+		}
+
+		@AfterEach
+		public void restoreStreams() 
+		{
+			System.setOut(originalOut);
+		}
+
+		@Test
+		void test_print_token_fault_path() 
+		{
+			//Testing using a string constant
+			pt.print_token("\"hello\"");
+			
+			//If this assertion fails, the fault has been detected
+			String expected = "string,\"\"hello\"\".\n";
+			assertEquals(expected, outContent.toString(), "Should print string constant info");
+		}
+
+		@Test
+		void test_print_token_keyword_path() 
+		{
+			//Testing keyword
+			pt.print_token("if");
+			
+			String expected = "keyword,\"if\".\n";
+			assertEquals(expected, outContent.toString());
+		}  
+	}
 
 	/*************************************/
 	/* NAME:	is_comment           */
@@ -448,7 +466,38 @@ public class PrinttokensJUnitTest {
 	  else
 	     return false;
 	}
-	
+
+
+	@Test
+	void test_is_comment()
+	{
+        boolean result = pt.is_comment(";this is a comment");
+        assertTrue(result, "Should return true for strings starting with ';'");
+    }
+
+	@Test
+    void test_not_is_comment() 
+	{
+        boolean result = pt.is_comment("variableName");
+        assertFalse(result, "Should return false for strings not starting with ';'");
+    }
+
+	@Test
+    void test_is_comment_empty_string_fault()
+	{
+        // Description: An empty string should simply not be a comment.
+        //If this assertion fails, the fault has been detected
+        try 
+		{
+            boolean result = Printtokens2.is_comment("");
+            assertFalse(result, "Empty string should return false, not crash.");
+        } 
+		catch (StringIndexOutOfBoundsException e) 
+		{
+            fail("The method crashed with an empty string! Fault detected.");
+        }
+    }
+
 	/*************************************/
 	/* NAME:	is_keyword           */
 	/* INPUT: 	a token */
