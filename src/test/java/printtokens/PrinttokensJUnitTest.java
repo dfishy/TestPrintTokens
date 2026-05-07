@@ -511,6 +511,32 @@ public class PrinttokensJUnitTest {
 	  else 
 	      return false;
 	}
+
+	@Test
+    void test_is_keyword_() 
+	{
+        boolean result = Printtokens2.is_keyword("if");
+        assertTrue(result, "Path {1, 2} failed: 'if' should be a keyword.");
+    }
+
+
+    @Test
+    void test_is_keyword_missing_not() 
+	{
+        boolean result = Printtokens2.is_keyword("not");
+        
+        //If this assertion fails, the fault has been detected
+        assertTrue(result, "Fault Detected: 'not' is a keyword but returned false.");
+    }
+
+	@Test
+    void test_is_keyword_case_insensitive() 
+	{
+        // Input "IF" is not in the code because it uses .equals()
+        boolean result = Printtokens2.is_keyword("IF");
+        
+        //If this assertion fails, the fault has been detected
+        assertTrue(result, "Fault Detected: Keywords should be case-insensitive.");
 	
 	/*************************************/
 	/* NAME:	is_char_constant     */
